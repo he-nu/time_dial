@@ -8,6 +8,12 @@ python3 script that prints a sun or moon phase on the terminal based on the curr
 - **Animation**: Option to animate the dial to cycle through 24 hours.
 - **Hour Marker**: Indicates the current hour on the timeline.
 
+## Setting up the environment
+
+```bash
+pip install -e .
+```
+
 ## Run script
 
 ```bash
