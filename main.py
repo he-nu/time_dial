@@ -1,5 +1,5 @@
 from main_modules.sun_moon_dial import TimeDial
 
 if __name__ == "__main__":
-    dial_ = TimeDial()
-    dial_.show_dial()
+    dial = TimeDial()
+    dial.show_dial()
