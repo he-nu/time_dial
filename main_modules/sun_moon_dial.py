@@ -35,7 +35,7 @@ class TimeDial():
     half_moon_art = moon_art.lines[: (len(moon_art.lines) // 2) + 1]
 
 
-    def _height_diff(self, art1:list, art2:list) -> int:
+    def __height_diff(self, art1:list, art2:list) -> int:
         """
         Calculate the absolute difference in length between two lists.
 
@@ -49,7 +49,7 @@ class TimeDial():
         """
         return abs(len(art1)-len(art2))
 
-    def _sunrise(self) -> str:
+    def __sunrise(self) -> str:
         """
         Generate the sunrise string by combining the sun and moon art,
         adjusting for their relative positions.
@@ -62,14 +62,14 @@ class TimeDial():
             str: The generated sunrise scene as a string.
         """
         # Sunrise, moonset
-        _height_diff = self._height_diff(
+        __height_diff = self.__height_diff(
             self.half_sun_art, self.half_moon_art)
         top_ = "\n" * 3
         # adjusting for the sun art is bigger
-        for top_r in self.half_sun_art[: _height_diff]:
+        for top_r in self.half_sun_art[: __height_diff]:
             top_ += top_r[self.sun_pad:] + "\n"
         mixed = ""
-        for i, sun_ray in enumerate(self.half_sun_art[_height_diff:]):
+        for i, sun_ray in enumerate(self.half_sun_art[__height_diff:]):
             # Add some sun to the row
             line_ = sun_ray[self.sun_pad:]
 
@@ -83,7 +83,7 @@ class TimeDial():
         result = top_ + mixed + self.timeline.art
         return result
 
-    def _mark_hour(self, hour:int) -> str:
+    def __mark_hour(self, hour:int) -> str:
         """
         Generate a marking line to visually represent the current hour
         on a numeric timeline.
@@ -100,7 +100,7 @@ class TimeDial():
             str: A string with spaces and a caret (^) marking the
             position of the given hour.
         """
-        stage = self._determine_stage(hour)
+        stage = self.__determine_stage(hour)
         num_indexes = []
         for i, char in enumerate(self.numline):
             if (char.isnumeric() and
@@ -120,7 +120,7 @@ class TimeDial():
         return marking_line
 
 
-    def _moonrise(self) -> str:
+    def __moonrise(self) -> str:
         """
         Generates the moonrise string by combining the sun and moon art
         with appropriate padding and adjustments.
@@ -133,7 +133,7 @@ class TimeDial():
         Returns:
             str: The generated moonrise scene as a string.
         """
-        _height_diff: int = self._height_diff(
+        __height_diff: int = self.__height_diff(
             self.half_sun_art, self.half_moon_art)
         # sun is bigger
         top_ = ""
@@ -142,7 +142,7 @@ class TimeDial():
         top_pad = self.pad_ * (top_pad_amount
                                + adjustment
                                - self.sun_pad)
-        for top_r in self.half_sun_art[: _height_diff]:
+        for top_r in self.half_sun_art[: __height_diff]:
             top_ += top_pad + top_r + "\n"
         mixed = ""
         for i, moon_ray in enumerate(self.half_moon_art):
@@ -150,14 +150,14 @@ class TimeDial():
             line_ += f"""{self.pad_ 
                           * (top_pad_amount- len(moon_ray)
                             - self.sun_pad)}{
-                                self.half_sun_art[i+_height_diff]}"""
+                                self.half_sun_art[i+__height_diff]}"""
             mixed += line_ + "\n"
         result = top_ + mixed + self.timeline.art
 
         return result
 
 
-    def _sun_route(self, stage) -> str:
+    def __sun_route(self, stage) -> str:
         """
         Generates the sun's position based on the given stage of its
         movement.
@@ -191,7 +191,7 @@ class TimeDial():
         return result
 
 
-    def _moon_route(self, stage) -> str:
+    def __moon_route(self, stage) -> str:
         """
         Generates the moon's position based on the given stage of its
         movement.
@@ -225,7 +225,7 @@ class TimeDial():
         return result
 
 
-    def _is_daytime(self, hour:int) -> bool:
+    def __is_daytime(self, hour:int) -> bool:
         """
         Determines if the dial should be in the sun face or moon face
         based on the given hour.
@@ -247,7 +247,7 @@ class TimeDial():
         return True
 
 
-    def _determine_stage(self, hour:int) -> int:
+    def __determine_stage(self, hour:int) -> int:
         """
         Converts the given hour to the corresponding sun or moon stage.
 
@@ -264,7 +264,7 @@ class TimeDial():
                  integer between 0 and 11, because it takes 12 steps for
                  the sun or the moon to get across the cycle.
         """
-        if self._is_daytime(hour):
+        if self.__is_daytime(hour):
             stage = hour - 6
             return stage
         else:
@@ -276,7 +276,7 @@ class TimeDial():
                 return stage
 
 
-    def _print_dynamic_top_pad(self, hour, stage):
+    def __print_dynamic_top_pad(self, hour, stage):
         """
         Prints the top padding based on the current hour and stage.
 
@@ -290,7 +290,7 @@ class TimeDial():
                         or night.
             stage (int): The current stage of the sun or moon.
         """
-        if not self._is_daytime(hour):
+        if not self.__is_daytime(hour):
             print("\n"*2)
         if stage < 6:
             print((self.top_pad-stage)*"\n")
@@ -300,7 +300,7 @@ class TimeDial():
 
     def animate(self, iterations=int(), print_lag: float = 0.5):
         """
-        Runs the dial in a loop starting from _sunrise, simulating the
+        Runs the dial in a loop starting from __sunrise, simulating the
         movement of the sun and moon across the sky.
 
         This method animates the dial by cycling through hours of the
@@ -352,8 +352,8 @@ class TimeDial():
         This method generates and prints the visual representation of
         the dial, adjusting the sun or moon's position based on the
         current hour. It calculates the appropriate stage and determines
-        if it is day or night, printing the corresponding _sunrise, sun
-        route, _moonrise, or moon route.
+        if it is day or night, printing the corresponding __sunrise, sun
+        route, __moonrise, or moon route.
 
         Args:
             current_hour (int, optional): 
@@ -366,21 +366,21 @@ class TimeDial():
         if not current_hour:
             current_hour = datetime.now().hour
 
-        stage = self._determine_stage(current_hour)
+        stage = self.__determine_stage(current_hour)
 
-        self._print_dynamic_top_pad(hour=current_hour, stage=stage)
+        self.__print_dynamic_top_pad(hour=current_hour, stage=stage)
 
-        if self._is_daytime(current_hour):
+        if self.__is_daytime(current_hour):
             if stage == 0:
-                print(self._sunrise())
+                print(self.__sunrise())
             else:
-                print(self._sun_route(stage=stage))
+                print(self.__sun_route(stage=stage))
         else:
             if stage == 0:
-                print(self._moonrise())
+                print(self.__moonrise())
             else:
-                print(self._moon_route(stage=stage))
-        print(self._mark_hour(current_hour))
+                print(self.__moon_route(stage=stage))
+        print(self.__mark_hour(current_hour))
 
         print(self.time_face.overline)
 
